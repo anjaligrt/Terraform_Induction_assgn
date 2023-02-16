@@ -11,8 +11,8 @@ terraform {
 # Provider Block
 provider "aws" {
   region     = "ap-south-1"
-  access_key = "AKIARQHR5SWESYMM3BER"
-  secret_key = "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"
+  access_key = ""
+  secret_key = ""
 }
 
 # Resource Block
