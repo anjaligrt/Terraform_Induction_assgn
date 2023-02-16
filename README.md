@@ -24,7 +24,7 @@ A simple terraform workflow consists of 4 steps :
 4) Once we are ready, apply the changes using the terraform apply command.
 
 
-
+-------------------------------
 **Environment Variables**
 Credentials can be provided by using the AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and optionally AWS_SESSION_TOKEN environment variables. The region can be set using the AWS_REGION or AWS_DEFAULT_REGION environment variables.
 
@@ -40,12 +40,12 @@ Other environment variables related to authorization are:
 	- AWS_PROFILE
 	- AWS_CONFIG_FILE
 	- AWS_SHARED_CREDENTIALS_FILE
-
-
+-----------------------------------
 
 
 **Write configuration**
 - The set of files used to describe infrastructure in Terraform is known as a Terraform configuration. You will write your first configuration to define a single AWS EC2 instance.
+- We are using environment variables for our aws creds.(Tip: Don't hardcode aws creds)
 
 **Initialize the directory**
 - When you create a new configuration — or check out an existing configuration from version control — you need to initialize the directory with **terraform init**.
