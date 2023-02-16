@@ -30,3 +30,19 @@ variable "instance_name" {
   type        = string
   default     = "ExampleAppServerInstance"
 }
+
+
+/*
+Terraform configurations can include variables to make your configuration more dynamic and flexible.
+
+**Terraform variables** allow you to write configuration that is flexible and easier to re-use.
+- Add a variable to define the instance name.
+- Create a new file called *variables.tf* with a block defining a new instance_name variable.
+
+**Apply your configuration**
+- Apply the configuration. Respond to the confirmation prompt with a yes.
+
+Now apply the configuration again, this time overriding the default instance name by passing in a variable using the -var flag. Terraform will update the instance's Name tag with the new name. Respond to the confirmation prompt with yes.
+  - terraform apply -var "instance_name=YetAnotherName"
+
+*/
