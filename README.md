@@ -40,11 +40,12 @@ Other environment variables related to authorization are:
 	- AWS_PROFILE
 	- AWS_CONFIG_FILE
 	- AWS_SHARED_CREDENTIALS_FILE
+
+
 -----------------------------------
 
-
 **Write configuration**
-- The set of files used to describe infrastructure in Terraform is known as a Terraform configuration. You will write your first configuration to define a single AWS EC2 instance.
+- The set of files used to describe infrastructure in Terraform is known as a Terraform configuration. You will write your first configuration to define a single AWS EC2 instance **(aws_ec2.tf)**.
 - We are using environment variables for our aws creds.(Tip: Don't hardcode aws creds)
 
 **Initialize the directory**
@@ -75,6 +76,75 @@ Other environment variables related to authorization are:
 **Manually Managing State**
 - Terraform has a built-in command called **terraform state** for advanced state management. Use the list subcommand to list of the resources in your project's state.
 - eg.  **terraform state list**
+
+
+-------------------------------------------------
+
+
+**We have created our first infrastructure with Terraform: a single EC2 instance on AWS. Now, we will modify that resource, and learn how to apply changes to our Terraform projects.**
+
+Infrastructure is continuously evolving, and Terraform helps you manage that change. As you change Terraform configurations, Terraform builds an execution plan that only modifies what is necessary to reach your desired state.
+
+
+- Write configuration's into a file named **update_aws_ec2_inst.tf**.
+```
+	terraform {
+	  required_providers {
+	    aws = {
+	      source  = "hashicorp/aws"
+	     # version = "~> 4.16"
+	    }
+	  }
+	}
+	
+	provider "aws" {
+	  region  = "ap-south-1"
+	}
+	
+	resource "aws_instance" "appserver" {
+	  ami           = "ami-0f8ca728008ff5af4"
+	  instance_type = "t2.micro"
+	  tags = {
+	    Name = "inst_updation"
+	  }
+	}
+```
+
+- Initialize the configuration.
+```
+terraform init
+```
+
+- Apply the configuration. Respond to the confirmation prompt with a yes.
+```
+terraform apply
+```
+
+**Configuration**
+- Once you have successfully applied the configuration. Now update the ami of your instance. Change the **aws_instance.app_server** resource under the provider block in **update_aws_ec2_inst.tf** by replacing the current AMI ID with a new one.
+
+```
+resource "aws_instance" "app_server" {
+-  ami           = "ami-0f8ca728008ff5af4"
++  ami           = "ami-0e07dcaca348a0e68"
+   instance_type = "t2.micro"
+ }
+```
+
+This update changes the AMI to an Red Hat Enterprise Linux version 9 AMI. The AWS provider knows that it cannot change the AMI of an instance after it has been created, so Terraform will destroy the old instance and create a new one.
+
+
+**Apply Changes**
+- After changing the configuration, run **terraform apply** again to see how Terraform will apply this change to the existing resources.
+
+- The prefix -/+ means that Terraform will destroy and recreate the resource, rather than updating it in-place. Terraform can update some attributes in-place (indicated with the ~ prefix), but changing the AMI for an EC2 instance requires recreating it. Terraform handles these details for you, and the execution plan displays what Terraform will do.
+
+- Additionally, the execution plan shows that the AMI change is what forces Terraform to replace the instance. Using this information, you can adjust your changes to avoid destructive updates if necessary.
+
+- Once again, Terraform prompts for approval of the execution plan before proceeding. Answer yes to execute the planned steps.
+
+- As indicated by the execution plan, Terraform first destroyed the existing instance and then created a new one in its place. You can use **terraform show** again to have Terraform print out the new values associated with this instance.
+
 
 
 
