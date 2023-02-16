@@ -10,13 +10,18 @@ terraform {
 
 # Provider Block
 provider "aws" {
-  region     = "ap-south-1"
-  access_key = ""
-  secret_key = ""
+  region = "ap-south-1"
 }
 
 # Resource Block
 resource "aws_instance" "webserver" {
-  ami  = "ami-0f8ca728008ff5af4"
+  ami           = "ami-0e07dcaca348a0e68"
   instance_type = "t2.micro"
+  tags = {
+    Name = "terraform_ec2_inst"
+  }
 }
+
+
+# Using Environment Variables
+
