@@ -45,38 +45,36 @@ Other environment variables related to authorization are:
 
 
 **Write configuration**
-	- The set of files used to describe infrastructure in Terraform is known as a Terraform configuration. You will write your first configuration to define a single AWS EC2 instance.
+- The set of files used to describe infrastructure in Terraform is known as a Terraform configuration. You will write your first configuration to define a single AWS EC2 instance.
 
 **Initialize the directory**
-	- When you create a new configuration — or check out an existing configuration from version control — you need to initialize the directory with **terraform init**.
-	- Initializing a configuration directory downloads and installs the providers defined in the configuration, which in this case is the aws provider.
+- When you create a new configuration — or check out an existing configuration from version control — you need to initialize the directory with **terraform init**.
+- Initializing a configuration directory downloads and installs the providers defined in the configuration, which in this case is the aws provider.
 
 **Format and validate the configuration**
-	- It is recommended to use consistent formatting in all of your configuration files. The **terraform fmt** command automatically updates configurations in the current directory for readability and consistency.
-	- Format your configuration. Terraform will print out the names of the files it modified, if any.
-	- You can also make sure your configuration is syntactically valid and internally consistent by using the **terraform validate** command.
-	- Validate your configuration. If the configuration provided is valid, then Terraform will return a success message.
+- It is recommended to use consistent formatting in all of your configuration files. The **terraform fmt** command automatically updates configurations in the current directory for readability and consistency.
+- Format your configuration. Terraform will print out the names of the files it modified, if any.
+- You can also make sure your configuration is syntactically valid and internally consistent by using the **terraform validate** command.
+- Validate your configuration. If the configuration provided is valid, then Terraform will return a success message.
 
 **Create infrastructure**
-	- Before it applies any changes, Terraform prints out the execution plan which describes the actions Terraform will take in order to change your infrastructure to match the configuration.
-	- Or you can see the execution plan with **terraform plan** command.
-	- Apply the configuration now with the **terraform apply** command.
+- Before it applies any changes, Terraform prints out the execution plan which describes the actions Terraform will take in order to change your infrastructure to match the configuration.
+- Or you can see the execution plan with **terraform plan** command.
+- Apply the configuration now with the **terraform apply** command.
+- In case if the plan is acceptable, then type 'yes' at the confirmation prompt to proceed. Executing the plan will take a few minutes since Terraform waits for the EC2 instance to become available.
 
-	- In case if the plan is acceptable, then type 'yes' at the confirmation prompt to proceed. Executing the plan will take a few minutes since Terraform waits for the EC2 instance to become available.
-
-	- You have now created infrastructure using Terraform! Visit the EC2 console and find your new EC2 instance.
-
+- You have now created infrastructure using Terraform! Visit the EC2 console and find your new EC2 instance.
 
 
 **Inspect state**
-	- When you applied your configuration, Terraform wrote data into a file called terraform.tfstate. Terraform stores the IDs and properties of the resources it manages in this file, so that it can update or destroy those resources going forward.
+- When you applied your configuration, Terraform wrote data into a file called terraform.tfstate. Terraform stores the IDs and properties of the resources it manages in this file, so that it can update or destroy those resources going forward.
 
-	- The **Terraform state file** is the only way Terraform can track which resources it manages, and often contains sensitive information, so you must store your state file securely and restrict access to only trusted team members who need to manage your infrastructure.
-	- Inspect the current state using **terraform show** command.
+- The **Terraform state file** is the only way Terraform can track which resources it manages, and often contains sensitive information, so you must store your state file securely and restrict access to only trusted team members who need to manage your infrastructure.
+- Inspect the current state using **terraform show** command.
 
 **Manually Managing State**
-	- Terraform has a built-in command called **terraform state** for advanced state management. Use the list subcommand to list of the resources in your project's state.
-	- eg.  **terraform state list**
+- Terraform has a built-in command called **terraform state** for advanced state management. Use the list subcommand to list of the resources in your project's state.
+- eg.  **terraform state list**
 
 
 
