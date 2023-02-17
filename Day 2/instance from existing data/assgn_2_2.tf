@@ -1,3 +1,5 @@
+# created ec2 instance from existig instance data
+
 provider "aws" {
   region = "ap-south-1"
 }
