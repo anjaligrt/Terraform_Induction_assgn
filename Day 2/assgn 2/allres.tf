@@ -109,11 +109,7 @@ resource "aws_security_group" "allow_tls" {
 
 # create EC2 instance
 resource "aws_instance" "ec2_example" {
-  #for_each = {
-  #  ami = "ami-0f8ca728008ff5af4"
-  #}
-  #image = each.key
-  #image_id = each.value
+  
   count                  = 1
   ami                    = "ami-0f8ca728008ff5af4"
   instance_type          = var.instance_type
