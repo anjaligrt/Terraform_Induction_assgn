@@ -4,34 +4,36 @@ provider "aws" {
 }
 
 data "aws_vpc" "main" {
-  owners = "${var.owner_id}"
   filter {
     name = "tag:Name"
-    values = ["Project VPC"]
+    values = "${var.vpc_name}"
   }
 }
 
 data "aws_subnet" "selected" {
-  owners = "${var.owner_id}"
   filter {
   name = "tag:Name"
-  values = ["My Public Subnet"]
+  values = "${var.subnet_name}"
   }
 }
 
 data "aws_security_group" "sg_name"{
-  owners = "${var.owner_id}"
   filter {
     name = "tag:Name"
-    values = ["allow_tls"]
+    values = "${var.sg_name}"
   }
 }
 
-data "aws_ami" "vol_name" {
-  owners = "${var.owner_id}"
+data "aws_ebs_volume" "ebs_volume" {
+  #owners = "${var.owner_id}"
+  most_recent = true
   filter {
-    name = "vol_name"
-    values = ["my_vol"]
+    name = "tag:Name"
+    values = "${var.vol.vol_name}"
+  }
+  filter {
+    name = "volume_type"
+    values = "${var.vol.vol_type}"
   }
 }
 
@@ -43,13 +45,20 @@ resource "aws_instance" "ec2_terraform_example" {
   availability_zone = var.availability_zone
   key_name          = var.key_name
   vpc_id            = data.aws_vpc.main.vpc_id
-  subnet_id         = data.aws_subnet.selected.subnet_id
-  security_groups   = data.aws_security_group.sg_name.id
-  volume_tags       = data.aws_ami.vol_name.vol_name
+  subnet_id         = data.aws_subnet.selected.subnet_name
+  security_groups   = data.aws_security_group.sg_name.sg_name
+  volume_tags       = data.aws_ebs_volume.ebs_volume.vol_name
 
 
   tags = {
     Name = "${var.inst_name}"
   }
   user_data = file("script.sh")
+}
+
+# attach existing volume 
+resource "aws_volume_attachment" "ebs_att" {
+  device_name = "/dev/sdh"
+  volume_id = data.aws_ebs_volume.ebs_volume.id
+  instance_id = aws_instance.ec2_terraform_example.id
 }
